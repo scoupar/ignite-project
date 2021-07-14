@@ -6,9 +6,18 @@ import { motion } from "framer-motion";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { smallImage } from "../util";
+//IMAGES
+import playstation from "../img/playstation.svg";
+import steam from "../img/steam.svg";
+import xbox from "../img/xbox.svg";
+import nintendo from "../img/nintendo.svg";
+import apple from "../img/apple.svg";
+import gamepad from "../img/gamepad.svg";
 
 const GameDetail = ({ pathId }) => {
   const history = useHistory();
+
+  //EXIT DETAIL
   const exitDetailHandler = (e) => {
     const element = e.target;
     if (element.classList.contains("shadow")) {
@@ -16,6 +25,25 @@ const GameDetail = ({ pathId }) => {
       history.push("/");
     }
   };
+
+  //GET PLATFORM IMAGES
+
+  const getPlatform = (platform) => {
+    if (platform.includes("PlayStation")) {
+      return playstation;
+    } else if (platform.includes("Xbox")) {
+      return xbox;
+    } else if (platform === "PC") {
+      return steam;
+    } else if (platform === "Nintendo Switch") {
+      return nintendo;
+    } else if (platform.includes("OS")) {
+      return apple;
+    } else {
+      return gamepad;
+    }
+  };
+
   //Data
   const { screen, game, isLoading } = useSelector((state) => state.detail);
   return (
@@ -32,7 +60,12 @@ const GameDetail = ({ pathId }) => {
                 <h3>Platforms</h3>
                 <Platforms>
                   {game.platforms.map((data) => (
-                    <h3 key={data.platform}>{data.platform.name}</h3>
+                    <img
+                      key={data.platform.id}
+                      src={getPlatform(data.platform.name)}
+                      alt={data.platform.name}
+                      title={data.platform.name}
+                    ></img>
                   ))}
                 </Platforms>
               </Info>
